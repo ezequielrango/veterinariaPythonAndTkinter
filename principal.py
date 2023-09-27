@@ -4,7 +4,8 @@ def abrir_ventana_clientes():
         # Crear una ventana secundaria.
     ventana_secundaria = tk.Toplevel()
     ventana_secundaria.title("Ventana clientes")
-    ventana_secundaria.config(width=300, height=200)
+    ventana_secundaria.config(width=900, height=500)
+    
         # Crear un botón dentro de la ventana secundaria
         # para cerrar la misma.
     boton_cerrar = ttk.Button(
@@ -19,7 +20,7 @@ def abrir_ventana_productos():
         # Crear una ventana
     ventana_secundaria = tk.Toplevel()
     ventana_secundaria.title("Ventana productos")
-    ventana_secundaria.config(width=300, height=200)
+    ventana_secundaria.config(width=900, height=500)
         # Crear un botón dentro de la ventana
         # para cerrar la misma.
     boton_cerrar = ttk.Button(
@@ -33,7 +34,7 @@ def abrir_ventana_turnos():
         # Crear una ventana.
     ventana_secundaria = tk.Toplevel()
     ventana_secundaria.title("Ventana Turnos")
-    ventana_secundaria.config(width=300, height=200)
+    ventana_secundaria.config(width=900, height=500)
         # Crear un botón dentro de la ventana
         # para cerrar la misma.
     boton_cerrar = ttk.Button(
@@ -56,7 +57,7 @@ def abrir_ventana_anadir():
         # Crear una ventana
     ventana_secundaria = tk.Toplevel()
     ventana_secundaria.title("Ventana añadir")
-    ventana_secundaria.config(width=300, height=200)
+    ventana_secundaria.config(width=900, height=500)
         # Crear un botón dentro de la ventana
         # para cerrar la misma.
     boton_cerrar = ttk.Button(
