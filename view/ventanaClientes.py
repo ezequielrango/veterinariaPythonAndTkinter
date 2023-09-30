@@ -684,7 +684,7 @@ tel_icon = canvas.create_image(
 )
 
 imageTurno = PhotoImage(
-    file=relative_to_assets("tel_icon.png"))
+    file=relative_to_assets("cal2.png"))
 tel_icon = canvas.create_image(
     665.0,
     420,
