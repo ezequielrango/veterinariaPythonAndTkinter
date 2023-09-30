@@ -11,7 +11,7 @@ from tkinter import Tk, Canvas, Entry, Text, Button, PhotoImage
 
 
 OUTPUT_PATH = Path(__file__).parent
-ASSETS_PATH = OUTPUT_PATH / Path(r"C:\Users\Usuario\Desktop\Figma\build\assets\frame0")
+ASSETS_PATH = OUTPUT_PATH / Path(r"C:\Users\Usuario\Desktop\TPFinal\veterinariaPythonAndTkinter\images")
 
 
 def relative_to_assets(path: str) -> Path:
@@ -61,7 +61,7 @@ canvas.create_text(
 )
 
 image_image_2 = PhotoImage(
-    file=relative_to_assets("image_2.png"))
+    file=relative_to_assets("image_9.png"))
 image_2 = canvas.create_image(
     150.0,
     99.0,
@@ -69,7 +69,7 @@ image_2 = canvas.create_image(
 )
 
 image_image_3 = PhotoImage(
-    file=relative_to_assets("image_3.png"))
+    file=relative_to_assets("image_10.png"))
 image_3 = canvas.create_image(
     827.0,
     99.0,
@@ -77,13 +77,13 @@ image_3 = canvas.create_image(
 )
 
 button_image_1 = PhotoImage(
-    file=relative_to_assets("button_1.png"))
+    file=relative_to_assets("button_5.png"))
 button_1 = Button(
     background="black",
     image=button_image_1,
     borderwidth=0,
     highlightthickness=0,
-    command=lambda: print("button_1 clicked"),
+    command=lambda: print("button_5 clicked"),
     relief="flat"
 )
 button_1.place(
@@ -94,13 +94,13 @@ button_1.place(
 )
 
 button_image_2 = PhotoImage(
-    file=relative_to_assets("button_2.png"))
+    file=relative_to_assets("button_7.png"))
 button_2 = Button(
     background="black",
     image=button_image_2,
     borderwidth=0,
     highlightthickness=0,
-    command=lambda: print("button_2 clicked"),
+    command=lambda: print("button_7 clicked"),
     relief="flat"
 )
 button_2.place(
@@ -111,13 +111,13 @@ button_2.place(
 )
 
 button_image_3 = PhotoImage(
-    file=relative_to_assets("button_3.png"))
+    file=relative_to_assets("button_6.png"))
 button_3 = Button(
     background="black",
     image=button_image_3,
     borderwidth=0,
     highlightthickness=0,
-    command=lambda: print("button_3 clicked"),
+    command=lambda: print("button_6 clicked"),
     relief="flat"
 )
 button_3.place(
