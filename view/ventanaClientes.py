@@ -6,7 +6,7 @@ from tkinter import Tk, Canvas, Entry, Text, Button, PhotoImage, ttk
 
 
 OUTPUT_PATH = Path(__file__).parent
-ASSETS_PATH = OUTPUT_PATH / Path(r"C:\Users\Usuario\Desktop\TPFinal\veterinariaPythonAndTkinter\images")
+ASSETS_PATH = OUTPUT_PATH / Path(r"G:\TECNICATURA EN DESARROLLO DE SOFTWARE\PROGRAMACIONFINAL\veterinariaPythonAndTkinter\images")
 
 
 def relative_to_assets(path: str) -> Path:
@@ -21,6 +21,7 @@ def agregar_cliente():
     especie = entry_especie.get()
     edad = entry_edad.get()
     telefono = entry_telefono.get()
+    turno = entry_fecha.get()
     
     if nombre and domicilio and dni and mascota and especie and edad and telefono:
         label_mensaje.config(text="")
@@ -33,7 +34,8 @@ def agregar_cliente():
             "Mascota": dni,
             "Especie": mascota,
             "Edad": edad,
-            "Telefono": telefono
+            "Telefono": telefono,
+            "Turno": turno
         }
 
         print(cliente)
