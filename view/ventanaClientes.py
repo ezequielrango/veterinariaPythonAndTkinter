@@ -6,7 +6,7 @@ from tkinter import Tk, Canvas, Entry, Text, Button, PhotoImage, ttk
 
 
 OUTPUT_PATH = Path(__file__).parent
-ASSETS_PATH = OUTPUT_PATH / Path(r"C:\Users\Usuario\Desktop\TPFinal\veterinariaPythonAndTkinter\images")
+ASSETS_PATH = OUTPUT_PATH / Path(r"G:\TECNICATURA EN DESARROLLO DE SOFTWARE\PROGRAMACIONFINAL\veterinariaPythonAndTkinter\images")
 
 
 def relative_to_assets(path: str) -> Path:
@@ -21,6 +21,7 @@ def agregar_cliente():
     especie = entry_especie.get()
     edad = entry_edad.get()
     telefono = entry_telefono.get()
+    turno = entry_fecha.get()
     
     if nombre and domicilio and dni and mascota and especie and edad and telefono:
         label_mensaje.config(text="")
@@ -33,7 +34,8 @@ def agregar_cliente():
             "Mascota": dni,
             "Especie": mascota,
             "Edad": edad,
-            "Telefono": telefono
+            "Telefono": telefono,
+            "Turno": turno
         }
 
         print(cliente)
@@ -52,6 +54,7 @@ def agregar_cliente():
         entry_especie.delete(0, "end")
         entry_edad.delete(0, "end")
         entry_telefono.delete(0, "end")
+        entry_fecha.delete(0, "end")
         label_mensaje.config(text="Cliente creado", bg="green")
 
     else:
@@ -74,15 +77,6 @@ def editar_cliente():
         valores_actuales = tabla_clientes.item(selected_item)["values"]
 
 
-        print('valoresactuales0',valores_actuales[0])
-        print('valoresactuales1',valores_actuales[1])
-        print('valoresactuales2',valores_actuales[2])
-        print('valoresactuales3',valores_actuales[3])
-        print('valoresactuales4',valores_actuales[4])
-        print('valoresactuales5',valores_actuales[5])
-        print('valoresactuales6',valores_actuales[6])
-    print('valores_actuales:', valores_actuales)
-
     # Mostrar los valores actuales en los campos de entrada
     entry_nombre.delete(0, tk.END)
     entry_nombre.insert(0, valores_actuales[0])
@@ -104,6 +98,9 @@ def editar_cliente():
 
     entry_telefono.delete(0, tk.END)
     entry_telefono.insert(0, valores_actuales[6])
+
+    entry_fecha.delete(0, tk.END)
+    entry_fecha.insert(0, valores_actuales[7])
 # Función para actualizar la tabla con los datos del cliente
 def actualizar_tabla(cliente):
     tabla_clientes.insert("", "end", values=(
@@ -113,7 +110,8 @@ def actualizar_tabla(cliente):
         cliente["Mascota"],
         cliente["Especie"],
         cliente["Edad"],
-        cliente["Telefono"]
+        cliente["Telefono"],
+        cliente["Turno"]
     ))
 # Crear una lista para almacenar los clientes (puedes usar una estructura de datos adecuada)
 lista_clientes = []
@@ -126,7 +124,8 @@ clientes_predefinidos = [
         "Mascota": "Zafira",
         "Especie": "Perro",
         "Edad": "5",
-        "Telefono": "3412424396"
+        "Telefono": "3412424396",
+        "Turno":'03/10/2023 - 18hs'
     },
     {
         "Nombre": "Nicolas Galvez",
@@ -135,8 +134,8 @@ clientes_predefinidos = [
         "Mascota": "Bento",
         "Especie": "Gato",
         "Edad": "8",
-        "Telefono": "3469424396"
-    },
+        "Telefono": "3412424396",
+        "Turno":'07/12/2023 - 09hs'    },
     {
         "Nombre": "Miriam Bozalongo",
         "Domicilio": "Dirección 3",
@@ -144,15 +143,15 @@ clientes_predefinidos = [
         "Mascota": "Canela",
         "Especie": "Gato",
         "Edad": "7",
-        "Telefono": "777-7777"
-    }
+        "Telefono": "3412424396",
+        "Turno":'23/10/2023 - 12hs'    }
 ]
 
 # Agregar los clientes predefinidos a la lista de clientes
 lista_clientes.extend(clientes_predefinidos)
 
 window = Tk()
-window.title('CLIENTES - Rango/Galvez - Prof. Bozalongo') 
+window.title('TURNOS CLIENTES - Rango/Galvez - Prof. Bozalongo') 
 window.geometry("1000x600")
 window.configure(bg = "#5D12FC")
 
@@ -204,6 +203,38 @@ image_telephone = PhotoImage(
 tel_icon = canvas.create_image(
     665.0,
     498.0,
+    image=image_telephone
+)
+
+
+
+
+entry_turno_imagen = PhotoImage(
+    file=relative_to_assets("entry_1.png"))
+entry_bg_7 = canvas.create_image(
+    663.0,
+    443.0,
+    image=entry_turno_imagen
+)
+entry_fecha = Entry(
+    bd=0,
+    bg="#C7BFBF",
+    fg="#000716",
+    highlightthickness=0
+)
+entry_fecha.place(
+    x=663.0,
+    y=443.0,
+    width=135.0,
+    height=21.0
+)
+
+
+image_telephone = PhotoImage(
+    file=relative_to_assets("tel_icon.png"))
+tel_icon = canvas.create_image(
+    663.0,
+    443.0,
     image=image_telephone
 )
 
@@ -276,7 +307,7 @@ canvas.create_text(
     420.0,
     24.0,
     anchor="nw",
-    text="CLIENTES",
+    text="TURNOS CLIENTES",
     fill="#FFFFFF",
     font=("Roboto Black", 22 * -1)
 )
@@ -284,7 +315,7 @@ canvas.create_text(
 canvas.create_rectangle(
     52.0,
     362.0,
-    340.0,
+    210.0,
     391.38999938964844,
     fill="#6937D5",
     outline="")
@@ -474,7 +505,7 @@ canvas.create_text(
     416.0,
     anchor="nw",
     text="DOMICILIO",
-    fill="#000000",
+    fill="#FFFFFF",
     font=("RobotoRoman Bold", 11 * -1)
 )
 
@@ -483,7 +514,7 @@ canvas.create_text(
     496.0,
     anchor="nw",
     text="MASCOTA",
-    fill="#000000",
+    fill="#FFFFFF",
     font=("RobotoRoman Bold", 11 * -1)
 )
 
@@ -500,7 +531,7 @@ canvas.create_text(
     416.0,
     anchor="nw",
     text="NOMBRE",
-    fill="#000000",
+    fill="#FFFFFF",
     font=("RobotoRoman Bold", 11 * -1)
 )
 
@@ -509,7 +540,7 @@ canvas.create_text(
     496.0,
     anchor="nw",
     text="ESPECIE",
-    fill="#000000",
+    fill="#FFFFFF",
     font=("RobotoRoman Bold", 11 * -1)
 )
 
@@ -518,7 +549,7 @@ canvas.create_text(
     416.0,
     anchor="nw",
     text="DNI",
-    fill="#000000",
+    fill="#FFFFFF",
     font=("RobotoRoman Bold", 11 * -1)
 )
 
@@ -567,7 +598,7 @@ canvas.create_text(
     496.0,
     anchor="nw",
     text="EDAD",
-    fill="#000000",
+    fill="#FFFFFF",
     font=("RobotoRoman Bold", 11 * -1)
 )
 
@@ -576,7 +607,16 @@ canvas.create_text(
     496.0,
     anchor="nw",
     text="TELEFONO",
-    fill="#000000",
+    fill="#FFFFFF",
+    font=("RobotoRoman Bold", 11 * -1)
+)
+
+canvas.create_text(
+    695.0,
+    416.0,
+    anchor="nw",
+    text="FECHA-HORA",
+    fill="#FFFFFF",
     font=("RobotoRoman Bold", 11 * -1)
 )
 
@@ -584,7 +624,7 @@ canvas.create_text(
     52.0,
     362.0,
     anchor="nw",
-    text="CREAR O ACTUALIZAR ",
+    text="Asignar o editar",
     fill="#FFFFFF",
     font=("Roboto Black", 22 * -1)
 )
@@ -644,6 +684,15 @@ tel_icon = canvas.create_image(
     498.0,
     image=image_telephone
 )
+
+imageTurno = PhotoImage(
+    file=relative_to_assets("cal2.png"))
+tel_icon = canvas.create_image(
+    665.0,
+    420,
+    image=imageTurno
+)
+
 
 canvas.create_rectangle(
     277.0,
@@ -716,7 +765,7 @@ style.configure("Tabla.Treeview",
 # Crear el Treeview para mostrar la tabla de clientes y aplicar el estilo
 tabla_clientes = ttk.Treeview(
     window,
-    columns=("Nombre", "Domicilio", "DNI", "Mascota", "Especie", "Edad", "Telefono"),
+    columns=("Nombre", "Domicilio", "DNI", "Mascota", "Especie", "Edad", "Telefono","Turno"),
     show="headings",
     style="Tabla.Treeview"  # Aplicar el estilo personalizado aquí
 )
@@ -729,6 +778,7 @@ tabla_clientes.heading("Mascota", text="Mascota")
 tabla_clientes.heading("Especie", text="Especie")
 tabla_clientes.heading("Edad", text="Edad")
 tabla_clientes.heading("Telefono", text="Teléfono")
+tabla_clientes.heading("Turno", text="Turno")
 
 # Ajustar el ancho de las columnas (puedes ajustarlo según tu diseño)
 tabla_clientes.column("Nombre", width=120)
@@ -738,9 +788,10 @@ tabla_clientes.column("Mascota", width=100)
 tabla_clientes.column("Especie", width=100)
 tabla_clientes.column("Edad", width=60)
 tabla_clientes.column("Telefono", width=100)
+tabla_clientes.column("Turno", width=125)
 
 # Colocar el Treeview en la posición deseada
-tabla_clientes.place(x=146.0, y=84.0, width=748.0, height=250.0)
+tabla_clientes.place(x=146.0, y=84.0, width=800.0, height=250.0)
 
 for cliente in lista_clientes:
     tabla_clientes.insert("", "end", values=(
@@ -750,7 +801,8 @@ for cliente in lista_clientes:
         cliente["Mascota"],
         cliente["Especie"],
         cliente["Edad"],
-        cliente["Telefono"]
+        cliente["Telefono"],
+        cliente["Turno"]
     ))
 
 

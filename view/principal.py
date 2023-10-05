@@ -11,7 +11,7 @@ from tkinter import Tk, Canvas, Entry, Text, Button, PhotoImage
 
 
 OUTPUT_PATH = Path(__file__).parent
-ASSETS_PATH = OUTPUT_PATH / Path(r"C:\Users\Usuario\Desktop\TPFinal\veterinariaPythonAndTkinter\images")
+ASSETS_PATH = OUTPUT_PATH / Path(r"G:\TECNICATURA EN DESARROLLO DE SOFTWARE\PROGRAMACIONFINAL\veterinariaPythonAndTkinter\images")
 
 
 def relative_to_assets(path: str) -> Path:
@@ -90,23 +90,6 @@ button_1.place(
     x=510.0,
     y=300.0,
     width=240.0,
-    height=80.0
-)
-
-button_image_2 = PhotoImage(
-    file=relative_to_assets("button_7.png"))
-button_2 = Button(
-    background="black",
-    image=button_image_2,
-    borderwidth=0,
-    highlightthickness=0,
-    command=lambda: print("button_7 clicked"),
-    relief="flat"
-)
-button_2.place(
-    x=250.0,
-    y=400.0,
-    width=500.0,
     height=80.0
 )
 
