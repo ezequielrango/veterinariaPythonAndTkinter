@@ -4,7 +4,9 @@ from pathlib import Path
 import tkinter as tk
 from tkinter import Tk, Canvas, Entry, Text, Button, PhotoImage, ttk
 from controller import *
+from db.db_connector import DBConnector
 
+db = DBConnector()
 control = Controller()
 
 OUTPUT_PATH = Path(__file__).parent
