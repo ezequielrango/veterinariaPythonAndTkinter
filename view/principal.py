@@ -8,8 +8,9 @@ from controller import *
 
 
 OUTPUT_PATH = Path(__file__).parent
-ASSETS_PATH = OUTPUT_PATH / Path(r"C:\Users\Usuario\Desktop\TPFinal\veterinariaPythonAndTkinter\view\images")
-
+ASSETS_PATH = OUTPUT_PATH / Path(r"G:\TECNICATURA EN DESARROLLO DE SOFTWARE\PROGRAMACIONFINAL\veterinariaPythonAndTkinter\view\images")
+# G:\TECNICATURA EN DESARROLLO DE SOFTWARE\PROGRAMACIONFINAL\veterinariaPythonAndTkinter\view\images
+# C:\Users\Usuario\Desktop\TPFinal\veterinariaPythonAndTkinter\view\images
 
 def relative_to_assets(path: str) -> Path:
     return ASSETS_PATH / Path(path)
@@ -90,7 +91,7 @@ button_1 = Button(
     image=button_image_1,
     borderwidth=0,
     highlightthickness=0,
-    command=control.abrirVentanaClientes,
+    command=control.abrirVentanaProductos,
     relief="flat"
 )
 button_1.place(
@@ -107,7 +108,7 @@ button_3 = Button(
     image=button_image_3,
     borderwidth=0,
     highlightthickness=0,
-    command=control.abrirVentanaProductos,
+    command=control.abrirVentanaClientes,
     relief="flat"
 )
 button_3.place(

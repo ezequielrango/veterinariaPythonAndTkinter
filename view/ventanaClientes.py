@@ -3,15 +3,20 @@ from tkinter import ttk
 from pathlib import Path
 import tkinter as tk
 from tkinter import Tk, Canvas, Entry, Text, Button, PhotoImage, ttk
+from controller import *
 
+control = Controller()
 
 OUTPUT_PATH = Path(__file__).parent
-ASSETS_PATH = OUTPUT_PATH / Path(r"C:\Users\Usuario\Desktop\TPFinal\veterinariaPythonAndTkinter\view\images")
-
+ASSETS_PATH = OUTPUT_PATH / Path(r"G:\TECNICATURA EN DESARROLLO DE SOFTWARE\PROGRAMACIONFINAL\veterinariaPythonAndTkinter\view\images")
+# G:\TECNICATURA EN DESARROLLO DE SOFTWARE\PROGRAMACIONFINAL\veterinariaPythonAndTkinter\view\images
+# C:\Users\Usuario\Desktop\TPFinal\veterinariaPythonAndTkinter\view\images
 
 def relative_to_assets(path: str) -> Path:
     return ASSETS_PATH / Path(path)
 
+def cerrar_cliente():
+    window.destroy()
 
 def agregar_cliente():
     nombre = entry_nombre.get()
@@ -230,7 +235,7 @@ boton_volver = Button(
     image=boton_volver_imagen,
     borderwidth=0,
     highlightthickness=0,
-    command=lambda: print("boton_volver clicked"),
+    command=cerrar_cliente,
     relief="flat"
 )
 boton_volver.place(

@@ -8,8 +8,9 @@ from tkinter import Tk, Canvas, Entry, Text, Button, PhotoImage
 
 
 OUTPUT_PATH = Path(__file__).parent
-ASSETS_PATH = OUTPUT_PATH / Path(r"C:\Users\Usuario\Desktop\TPFinal\veterinariaPythonAndTkinter\view\images")
-
+ASSETS_PATH = OUTPUT_PATH / Path(r"G:\TECNICATURA EN DESARROLLO DE SOFTWARE\PROGRAMACIONFINAL\veterinariaPythonAndTkinter\view\images")
+# G:\TECNICATURA EN DESARROLLO DE SOFTWARE\PROGRAMACIONFINAL\veterinariaPythonAndTkinter\view\images
+# C:\Users\Usuario\Desktop\TPFinal\veterinariaPythonAndTkinter\view\images
 
 
 def relative_to_assets(path: str) -> Path:
