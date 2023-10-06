@@ -1,6 +1,5 @@
-
 class Cliente:
-    def __init__(self, dni, nombre, domicilio,  mascota, especie, edad, telefono, turno):
+    def __init__(self, dni, nombre, domicilio, mascota, especie, edad, telefono, turno):
         self._dni = dni
         self._nombre = nombre
         self._domicilio = domicilio        
@@ -10,8 +9,7 @@ class Cliente:
         self._telefono = telefono
         self._turno = turno
 
-
-    # Getters >>>>>>>>>>>>>>
+    # Getters
 
     def getDni(self):
         return self._dni
@@ -37,28 +35,13 @@ class Cliente:
     def getTurno(self):
         return self._turno
 
-    # Setters >>>>>>>>>>>>>>>
+    # Setters
 
     def setDni(self, dni):
         self._dni = dni
 
     def setNombre(self, nombre):
-        self._nombr = nombre
+        self._nombre = nombre  # Corregir el atributo aquí
 
-    def setDomicilio(self, domicilio):
-        self._domicilio = domicilio
+    # Resto de los setters...
 
-    def setMascota(self, mascota):
-        self._mascota = mascota
-
-    def setEspecie(self, especie):
-        self._especie = especie
-
-    def setEdad(self, edad):
-        self._edad = edad
-
-    def setTelefono(self, telefono):
-        self._telefono = telefono
-    
-    def setTurno(self, turno):
-        self._turno = turno

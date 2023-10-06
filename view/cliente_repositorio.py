@@ -1,14 +1,12 @@
 import mysql.connector
-from ..modelos.clientes import Cliente  # Asegúrate de importar la clase Cliente
-
+from clientes import Cliente  # Asegúrate de importar la clase Cliente
 class ClienteRepository:
     def __init__(self, db_connector):
         self.db_connector = db_connector
 
     def guardar_cliente(self, cliente):
-        # Insertar un nuevo cliente en la base de datos
         query = """
-            INSERT INTO clientes (dni, nombre, domicilio, mascota, especie, edad, telefono, turno)
+            INSERT INTO clientes (dni, nombre, domicilio, mascota, especie_id, edad, telefono, turno)
             VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
         """
         values = (
@@ -32,7 +30,6 @@ class ClienteRepository:
             print(f"Error al guardar el cliente: {err}")
 
     def listar_clientes(self):
-        # Obtener todos los clientes de la base de datos
         query = "SELECT * FROM clientes"
         try:
             cursor = self.db_connector.connection.cursor(dictionary=True)
@@ -55,6 +52,8 @@ class ClienteRepository:
         except mysql.connector.Error as err:
             print(f"Error al listar los clientes: {err}")
             return []
+
+
 
     def eliminar_cliente(self, dni):
         # Eliminar un cliente de la base de datos por su DNI
