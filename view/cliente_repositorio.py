@@ -67,3 +67,30 @@ class ClienteRepository:
             print("Cliente eliminado exitosamente.")
         except mysql.connector.Error as err:
             print(f"Error al eliminar el cliente: {err}")
+
+    def actualizar_cliente(self, cliente):
+        query = """
+            UPDATE clientes
+            SET nombre = %s, domicilio = %s, mascota = %s, especie_id = %s,
+                edad = %s, telefono = %s, turno = %s
+            WHERE dni = %s
+        """
+        values = (
+            cliente.getNombre(),
+            cliente.getDomicilio(),
+            cliente.getMascota(),
+            cliente.getEspecie(),
+            cliente.getEdad(),
+            cliente.getTelefono(),
+            cliente.getTurno(),
+            cliente.getDni()
+        )
+
+        try:
+            cursor = self.db_connector.connection.cursor()
+            cursor.execute(query, values)
+            self.db_connector.connection.commit()
+            cursor.close()
+            print("Cliente actualizado exitosamente.")
+        except mysql.connector.Error as err:
+            print(f"Error al actualizar el cliente: {err}")

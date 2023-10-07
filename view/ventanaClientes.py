@@ -8,8 +8,8 @@ from db_connector import DBConnector
 from clientes import Cliente
 from cliente_repositorio import ClienteRepository
 
-db_connector = DBConnector()  # Instancia del conector de la base de datos
-cliente_repository = ClienteRepository(db_connector)  # Instancia del repositorio de clientes
+db_connector = DBConnector() 
+cliente_repository = ClienteRepository(db_connector)  
 
 control = Controller()
 
@@ -76,7 +76,7 @@ def eliminar_cliente():
     if selected_item:
         label_mensaje.config(text="")
         dni = tabla_clientes.item(selected_item, "values")[2]
-        cliente_repository.eliminar_cliente(dni)  # Usa el repositorio para eliminar el cliente
+        cliente_repository.eliminar_cliente(dni)  
         tabla_clientes.delete(selected_item)
         label_mensaje.config(text="Cliente eliminado correctamente", bg="green")
     else:
@@ -89,7 +89,7 @@ def editar_cliente():
         # Obtener los valores actuales de la fila seleccionada
         valores_actuales = tabla_clientes.item(selected_item)["values"]
 
-
+    print(valores_actuales)
     # Mostrar los valores actuales en los campos de entrada
     entry_nombre.delete(0, tk.END)
     entry_nombre.insert(0, valores_actuales[0])
@@ -118,18 +118,19 @@ def editar_cliente():
 # Modificar la función actualizar_tabla para aceptar un objeto Cliente
 def actualizar_tabla(cliente):
     tabla_clientes.insert("", "end", values=(
-        cliente.getNombre(),  # Usar el método getNombre() en lugar de cliente.nombre
+        cliente.getNombre(), 
         cliente.getDomicilio(),
-        cliente.getDni(),      # Usar el método getDni() en lugar de cliente.dni
+        cliente.getDni(),     
         cliente.getMascota(),
         cliente.getEspecie(),
         cliente.getEdad(),
         cliente.getTelefono(),
         cliente.getTurno()
     ))
-# Crear una lista para almacenar los clientes (puedes usar una estructura de datos adecuada)
+# Crear una lista para almacenar los clientes 
 lista_clientes = []
-# Crear una lista predefinida de clientes
+
+
 def listar_clientes():
     # Borra la tabla actual
     for row in tabla_clientes.get_children():
@@ -151,6 +152,45 @@ def listar_clientes():
             cliente.getTurno()
         ))
 
+def actualizar_cliente():
+    selected_item = tabla_clientes.selection()
+    if selected_item:
+        label_mensaje.config(text="")
+
+        # Obtener el DNI del cliente seleccionado
+        dni = tabla_clientes.item(selected_item, "values")[2]
+
+        # Obtener los datos actualizados de los campos de entrada
+        nombre = entry_nombre.get()
+        domicilio = entry_domicilio.get()
+        mascota = entry_mascota.get()
+        especie = entry_especie.get()
+        edad = entry_edad.get()
+        telefono = entry_telefono.get()
+        turno = entry_fecha.get()
+
+        # Crear un objeto Cliente con los datos actualizados
+        cliente_actualizado = Cliente(
+            dni,
+            nombre,
+            domicilio,
+            mascota,
+            especie,
+            edad,
+            telefono,
+            turno
+        )
+
+        # Llamar al método de actualización en el repositorio
+        cliente_repository.actualizar_cliente(cliente_actualizado)
+
+        # Actualizar la tabla con los datos del cliente actualizado
+        actualizar_tabla(cliente_actualizado)
+
+        label_mensaje.config(text="Cliente actualizado exitosamente", bg="green")
+    else:
+        label_mensaje.config(text="Seleccione un cliente para actualizar.", bg="red")
+        
 
 window = Tk()
 window.title('TURNOS CLIENTES - Rango/Galvez - Prof. Bozalongo') 
