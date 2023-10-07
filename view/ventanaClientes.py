@@ -3,21 +3,32 @@ from tkinter import ttk
 from pathlib import Path
 import tkinter as tk
 from tkinter import Tk, Canvas, Entry, Text, Button, PhotoImage, ttk
+from controller import *
+from db_connector import DBConnector
+from clientes import Cliente
+from cliente_repositorio import ClienteRepository
 
+db_connector = DBConnector() 
+cliente_repository = ClienteRepository(db_connector)  
+
+control = Controller()
 
 OUTPUT_PATH = Path(__file__).parent
 ASSETS_PATH = OUTPUT_PATH / Path(r"G:\TECNICATURA EN DESARROLLO DE SOFTWARE\PROGRAMACIONFINAL\veterinariaPythonAndTkinter\images")
-
+# G:\TECNICATURA EN DESARROLLO DE SOFTWARE\PROGRAMACIONFINAL\veterinariaPythonAndTkinter\view\images
+# C:\Users\Usuario\Desktop\TPFinal\veterinariaPythonAndTkinter\view\images
 
 def relative_to_assets(path: str) -> Path:
     return ASSETS_PATH / Path(path)
 
+def cerrar_cliente():
+    window.destroy()
 
 def agregar_cliente():
     nombre = entry_nombre.get()
     domicilio = entry_dni.get()
-    dni = entry_domicilio.get()
-    mascota = entry_mascota.get()
+    dni = entry_telefono.get()
+    mascota = entry_domicilio.get()
     especie = entry_especie.get()
     edad = entry_edad.get()
     telefono = entry_telefono.get()
@@ -27,22 +38,22 @@ def agregar_cliente():
         label_mensaje.config(text="")
 
         # Crear un cliente con los valores ingresados
-        cliente = {
-            "Nombre": nombre,
-            "Domicilio": domicilio,
-            "DNI": especie,
-            "Mascota": dni,
-            "Especie": mascota,
-            "Edad": edad,
-            "Telefono": telefono,
-            "Turno": turno
-        }
+        cliente = Cliente(
+            dni,
+            nombre,
+            domicilio,
+            mascota,
+            especie,
+            edad,
+            telefono,
+            turno
+        )
 
         print(cliente)
         
-        # Agregar el cliente a la lista de clientes
-        lista_clientes.append(cliente)
-        
+        # Guardar el cliente en la base de datos
+        cliente_repository.guardar_cliente(cliente)
+
         # Actualizar la tabla con los datos del cliente
         actualizar_tabla(cliente)
         
@@ -64,8 +75,10 @@ def eliminar_cliente():
     selected_item = tabla_clientes.selection()
     if selected_item:
         label_mensaje.config(text="")
+        dni = tabla_clientes.item(selected_item, "values")[2]
+        cliente_repository.eliminar_cliente(dni)  
         tabla_clientes.delete(selected_item)
-        label_mensaje.config(text="Cliente Eliminado correctamente", bg="green")
+        label_mensaje.config(text="Cliente eliminado correctamente", bg="green")
     else:
         label_mensaje.config(text="Seleccione un cliente para eliminar.")
 def editar_cliente():
@@ -76,7 +89,7 @@ def editar_cliente():
         # Obtener los valores actuales de la fila seleccionada
         valores_actuales = tabla_clientes.item(selected_item)["values"]
 
-
+    print(valores_actuales)
     # Mostrar los valores actuales en los campos de entrada
     entry_nombre.delete(0, tk.END)
     entry_nombre.insert(0, valores_actuales[0])
@@ -102,53 +115,82 @@ def editar_cliente():
     entry_fecha.delete(0, tk.END)
     entry_fecha.insert(0, valores_actuales[7])
 # Función para actualizar la tabla con los datos del cliente
+# Modificar la función actualizar_tabla para aceptar un objeto Cliente
 def actualizar_tabla(cliente):
     tabla_clientes.insert("", "end", values=(
-        cliente["Nombre"],
-        cliente["Domicilio"],
-        cliente["DNI"],
-        cliente["Mascota"],
-        cliente["Especie"],
-        cliente["Edad"],
-        cliente["Telefono"],
-        cliente["Turno"]
+        cliente.getNombre(), 
+        cliente.getDomicilio(),
+        cliente.getDni(),     
+        cliente.getMascota(),
+        cliente.getEspecie(),
+        cliente.getEdad(),
+        cliente.getTelefono(),
+        cliente.getTurno()
     ))
-# Crear una lista para almacenar los clientes (puedes usar una estructura de datos adecuada)
+# Crear una lista para almacenar los clientes 
 lista_clientes = []
-# Crear una lista predefinida de clientes
-clientes_predefinidos = [
-    {
-        "Nombre": "Ezequiel Rango",
-        "Domicilio": "Sarmiento 123",
-        "DNI": "40032461",
-        "Mascota": "Zafira",
-        "Especie": "Perro",
-        "Edad": "5",
-        "Telefono": "3412424396",
-        "Turno":'03/10/2023 - 18hs'
-    },
-    {
-        "Nombre": "Nicolas Galvez",
-        "Domicilio": "Prince 123",
-        "DNI": "40032461",
-        "Mascota": "Bento",
-        "Especie": "Gato",
-        "Edad": "8",
-        "Telefono": "3412424396",
-        "Turno":'07/12/2023 - 09hs'    },
-    {
-        "Nombre": "Miriam Bozalongo",
-        "Domicilio": "Dirección 3",
-        "DNI": "37032461",
-        "Mascota": "Canela",
-        "Especie": "Gato",
-        "Edad": "7",
-        "Telefono": "3412424396",
-        "Turno":'23/10/2023 - 12hs'    }
-]
 
-# Agregar los clientes predefinidos a la lista de clientes
-lista_clientes.extend(clientes_predefinidos)
+
+def listar_clientes():
+    # Borra la tabla actual
+    for row in tabla_clientes.get_children():
+        tabla_clientes.delete(row)
+
+    # Usa el repositorio para obtener los clientes
+    clientes = cliente_repository.listar_clientes()
+
+    # Agrega los clientes a la tabla
+    for cliente in clientes:
+        tabla_clientes.insert("", "end", values=(
+            cliente.getDni(),
+            cliente.getNombre(),
+            cliente.getDomicilio(),
+            cliente.getMascota(),
+            cliente.getEspecie(),
+            cliente.getEdad(),
+            cliente.getTelefono(),
+            cliente.getTurno()
+        ))
+
+def actualizar_cliente():
+    selected_item = tabla_clientes.selection()
+    if selected_item:
+        label_mensaje.config(text="")
+
+        # Obtener el DNI del cliente seleccionado
+        dni = tabla_clientes.item(selected_item, "values")[2]
+
+        # Obtener los datos actualizados de los campos de entrada
+        nombre = entry_nombre.get()
+        domicilio = entry_domicilio.get()
+        mascota = entry_mascota.get()
+        especie = entry_especie.get()
+        edad = entry_edad.get()
+        telefono = entry_telefono.get()
+        turno = entry_fecha.get()
+
+        # Crear un objeto Cliente con los datos actualizados
+        cliente_actualizado = Cliente(
+            dni,
+            nombre,
+            domicilio,
+            mascota,
+            especie,
+            edad,
+            telefono,
+            turno
+        )
+
+        # Llamar al método de actualización en el repositorio
+        cliente_repository.actualizar_cliente(cliente_actualizado)
+
+        # Actualizar la tabla con los datos del cliente actualizado
+        actualizar_tabla(cliente_actualizado)
+
+        label_mensaje.config(text="Cliente actualizado exitosamente", bg="green")
+    else:
+        label_mensaje.config(text="Seleccione un cliente para actualizar.", bg="red")
+        
 
 window = Tk()
 window.title('TURNOS CLIENTES - Rango/Galvez - Prof. Bozalongo') 
@@ -261,7 +303,7 @@ boton_volver = Button(
     image=boton_volver_imagen,
     borderwidth=0,
     highlightthickness=0,
-    command=lambda: print("boton_volver clicked"),
+    command=cerrar_cliente,
     relief="flat"
 )
 boton_volver.place(
@@ -792,18 +834,9 @@ tabla_clientes.column("Turno", width=125)
 
 # Colocar el Treeview en la posición deseada
 tabla_clientes.place(x=146.0, y=84.0, width=800.0, height=250.0)
-
-for cliente in lista_clientes:
-    tabla_clientes.insert("", "end", values=(
-        cliente["Nombre"],
-        cliente["Domicilio"],
-        cliente["DNI"],
-        cliente["Mascota"],
-        cliente["Especie"],
-        cliente["Edad"],
-        cliente["Telefono"],
-        cliente["Turno"]
-    ))
+# Modificar el bucle principal para cargar los clientes desde el repositorio
+for cliente in cliente_repository.listar_clientes():
+    actualizar_tabla(cliente)
 
 
 window.resizable(False, False)
