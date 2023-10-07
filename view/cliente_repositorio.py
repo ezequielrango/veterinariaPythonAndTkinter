@@ -1,12 +1,12 @@
 import mysql.connector
-from clientes import Cliente  # Asegúrate de importar la clase Cliente
+from clientes import Cliente 
 class ClienteRepository:
     def __init__(self, db_connector):
         self.db_connector = db_connector
 
     def guardar_cliente(self, cliente):
         query = """
-            INSERT INTO clientes (dni, nombre, domicilio, mascota, especie_id, edad, telefono, turno)
+            INSERT INTO clientes (dni, nombre, domicilio, mascota, especie, edad, telefono, turno)
             VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
         """
         values = (

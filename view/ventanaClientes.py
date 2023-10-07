@@ -27,7 +27,7 @@ def cerrar_cliente():
 def agregar_cliente():
     nombre = entry_nombre.get()
     domicilio = entry_dni.get()
-    dni = entry_mascota.get()
+    dni = entry_telefono.get()
     mascota = entry_domicilio.get()
     especie = entry_especie.get()
     edad = entry_edad.get()
@@ -75,7 +75,7 @@ def eliminar_cliente():
     selected_item = tabla_clientes.selection()
     if selected_item:
         label_mensaje.config(text="")
-        dni = tabla_clientes.item(selected_item, "values")[0]
+        dni = tabla_clientes.item(selected_item, "values")[2]
         cliente_repository.eliminar_cliente(dni)  # Usa el repositorio para eliminar el cliente
         tabla_clientes.delete(selected_item)
         label_mensaje.config(text="Cliente eliminado correctamente", bg="green")
