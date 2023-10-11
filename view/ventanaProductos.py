@@ -15,10 +15,13 @@ ASSETS_PATH = OUTPUT_PATH / Path(r"C:/Users/Usuario/Desktop/TPFinal/veterinariaP
 db_connector = DBConnector() 
 repo = ProductoRepository(db_connector)  
 
+def cerrar_producto():
+    window.destroy()
+
 def relative_to_assets(path: str) -> Path:
     return ASSETS_PATH / Path(path)
 
-def agregar_cliente():
+def agregar_producto():
     nombre = entry_nombre.get()
     cantidad = entry_cantidad.get()
     
@@ -98,18 +101,55 @@ def actualizar_tabla(producto):
         producto.get_cantidad(),
     ))
 
-# Frame para botones
-frame_botones = tk.Frame(window, bg="#9E02B8")
-frame_botones.pack(side=tk.TOP, fill=tk.X, padx=10, pady=10)
+boton_agregar_imagen = PhotoImage(
+    file=relative_to_assets("boton_agregar.png"))
+boton_agregar = tk.Button(    image=boton_agregar_imagen,
+    borderwidth=0,
+    highlightthickness=0,
+    command=agregar_producto,  # Vincular la función al botón,
+    relief="flat")
 
-boton_agregar = tk.Button(frame_botones,bg="white", text="Agregar Producto", command=agregar_cliente)
-boton_eliminar = tk.Button(frame_botones,bg="white", text="Editar Medicamento", command=editar_producto)
+boton_editar_imagen = PhotoImage(
+    file=relative_to_assets("boton_editar.png"))
+boton_editar = tk.Button(
+    image=boton_editar_imagen,
+    borderwidth=0,
+    pady= 20,
+    highlightthickness=0,
+    command=editar_producto,
+    relief="flat")
 
-boton_agregar.pack(side=tk.LEFT, padx=5)
-boton_eliminar.pack(side=tk.LEFT, padx=5)
+boton_agregar.place(
+    x=10.0,
+    y=340.0,
+    width=167.0,
+    height=50.00000762939453
+)
+boton_editar.place(
+    x=10.0,
+    y=400.0,
+    width=167.0,
+    height=50.0
+)
 
+boton_volver_imagen = PhotoImage(
+    file=relative_to_assets("boton_volver.png"))
+boton_volver = Button(
+    image=boton_volver_imagen,
+    borderwidth=0,
+    highlightthickness=0,
+    command=cerrar_producto,
+    relief="flat"
+)
+
+boton_volver.place(
+    x=19.0,
+    y=19.0,
+    width=121.0,
+    height=50.0
+)
 # Crear la tabla de productos
-tabla_productos = ttk.Treeview(window, columns=("Nombre", "Cantidad"), height=20)
+tabla_productos = ttk.Treeview(window, columns=("Nombre", "Cantidad"), height=20, padding=10)
 tabla_productos.heading("#1", text="Nombre", anchor=tk.W)
 tabla_productos.heading("#2", text="Cantidad", anchor=tk.W)
 
