@@ -27,9 +27,9 @@ def cerrar_cliente():
 def agregar_cliente():
     nombre = entry_nombre.get()
     domicilio = entry_dni.get()
-    dni = entry_telefono.get()
+    dni = entry_especie.get()
     mascota = entry_domicilio.get()
-    especie = entry_especie.get()
+    especie = entry_mascota.get()
     edad = entry_edad.get()
     telefono = entry_telefono.get()
     turno = entry_fecha.get()
