@@ -14,7 +14,7 @@ cliente_repository = ClienteRepository(db_connector)
 control = Controller()
 
 OUTPUT_PATH = Path(__file__).parent
-ASSETS_PATH = OUTPUT_PATH / Path(r"G:\TECNICATURA EN DESARROLLO DE SOFTWARE\PROGRAMACIONFINAL\veterinariaPythonAndTkinter\images")
+ASSETS_PATH = OUTPUT_PATH / Path(r"C:/Users/Usuario/Desktop/TPFinal/veterinariaPythonAndTkinter/images")
 # G:\TECNICATURA EN DESARROLLO DE SOFTWARE\PROGRAMACIONFINAL\veterinariaPythonAndTkinter\view\images
 # C:\Users\Usuario\Desktop\TPFinal\veterinariaPythonAndTkinter\view\images
 

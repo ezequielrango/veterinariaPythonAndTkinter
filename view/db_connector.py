@@ -31,6 +31,9 @@ class DBConnector:
         self.cursor.execute(query, values)
         self.connection.commit()
 
+
+
+
     def close(self):
         self.cursor.close()
         self.connection.close()

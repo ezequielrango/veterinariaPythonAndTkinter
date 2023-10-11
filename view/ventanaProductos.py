@@ -1,17 +1,19 @@
-
 import tkinter as tk
 from tkinter import ttk
 from pathlib import Path
-
-# Explicit imports to satisfy Flake8
 from tkinter import Tk, Canvas, Entry, Text, Button, PhotoImage
-
+from controller import *
+from db_connector import DBConnector
+from productos import Producto
+from producto_repositorio import *
 
 OUTPUT_PATH = Path(__file__).parent
-ASSETS_PATH = OUTPUT_PATH / Path(r"G:\TECNICATURA EN DESARROLLO DE SOFTWARE\PROGRAMACIONFINAL\veterinariaPythonAndTkinter\images")
+ASSETS_PATH = OUTPUT_PATH / Path(r"C:/Users/Usuario/Desktop/TPFinal/veterinariaPythonAndTkinter/images")
 # G:\TECNICATURA EN DESARROLLO DE SOFTWARE\PROGRAMACIONFINAL\veterinariaPythonAndTkinter\view\images
 # C:\Users\Usuario\Desktop\TPFinal\veterinariaPythonAndTkinter\view\images
 
+db_connector = DBConnector() 
+repo = ProductoRepository(db_connector)  
 
 def relative_to_assets(path: str) -> Path:
     return ASSETS_PATH / Path(path)
@@ -19,21 +21,48 @@ def relative_to_assets(path: str) -> Path:
 def agregar_cliente():
     nombre = entry_nombre.get()
     cantidad = entry_cantidad.get()
-
+    
     if nombre and cantidad:
-        tabla_productos.insert("", "end", values=(nombre, cantidad))
-        # Limpiar los campos de entrada después de agregar un cliente
-        entry_nombre.delete(0, tk.END)
-        entry_cantidad.delete(0, tk.END)
-    else:
-        label_mensaje.config(text="Por favor, complete todos los campos.")
+        label_mensaje.config(text="")
 
-def eliminar_cliente():
+        # Crear un cliente con los valores ingresados
+        producto = Producto(
+            nombre,
+            cantidad,
+        )
+
+        print(producto)
+        
+        # Guardar el cliente en la base de datos
+        repo.guardar_producto(producto)
+
+        # Actualizar la tabla con los datos del cliente
+        actualizar_tabla(producto)
+        
+        # Limpiar los campos de entrada después de agregar un cliente
+        entry_nombre.delete(0, "end")
+        entry_cantidad.delete(0, "end")
+      
+        label_mensaje.config(text="Producto creado", bg="green")
+
+    else:
+        label_mensaje.config(text="Por favor, complete todos los campos.", bg="red")
+
+def editar_producto():
     selected_item = tabla_productos.selection()
     if selected_item:
-        tabla_productos.delete(selected_item)
-    else:
-        label_mensaje.config(text="Seleccione un cliente para eliminar.")
+        label_mensaje.config(text="")
+        
+        # Obtener los valores actuales de la fila seleccionada
+        valores_actuales = tabla_productos.item(selected_item)["values"]
+
+    print(valores_actuales)
+    # Mostrar los valores actuales en los campos de entrada
+    entry_nombre.delete(0, tk.END)
+    entry_nombre.insert(0, valores_actuales[0])
+
+    entry_cantidad.delete(0, tk.END)
+    entry_cantidad.insert(0, valores_actuales[1])
 
 window = Tk()
 window.title("Productos")
@@ -63,13 +92,18 @@ image_1 = canvas.create_image(
     image=image_image_1
 )
 
+def actualizar_tabla(producto):
+    tabla_productos.insert("", "end", values=(
+        producto.get_nombre(), 
+        producto.get_cantidad(),
+    ))
 
 # Frame para botones
 frame_botones = tk.Frame(window, bg="#9E02B8")
 frame_botones.pack(side=tk.TOP, fill=tk.X, padx=10, pady=10)
 
-boton_agregar = tk.Button(frame_botones,bg="white", text="Agregar Medicamento", command=agregar_cliente)
-boton_eliminar = tk.Button(frame_botones,bg="white", text="Eliminar Medicamento", command=eliminar_cliente)
+boton_agregar = tk.Button(frame_botones,bg="white", text="Agregar Producto", command=agregar_cliente)
+boton_eliminar = tk.Button(frame_botones,bg="white", text="Editar Medicamento", command=editar_producto)
 
 boton_agregar.pack(side=tk.LEFT, padx=5)
 boton_eliminar.pack(side=tk.LEFT, padx=5)
@@ -114,6 +148,9 @@ entry_nombre = tk.Entry(frame_etiquetas_entradas, width=20)
 entry_nombre.grid(row=0, column=1, padx=5, pady=5)
 entry_cantidad = tk.Entry(frame_etiquetas_entradas, width=20)
 entry_cantidad.grid(row=1, column=1, padx=5, pady=5)
+
+for producto in repo.listar_productos():
+    actualizar_tabla(producto)
 
 
 # ...
